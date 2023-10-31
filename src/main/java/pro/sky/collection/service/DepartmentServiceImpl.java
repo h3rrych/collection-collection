@@ -1,6 +1,7 @@
 package pro.sky.collection.service;
 
 import org.springframework.stereotype.Service;
+import pro.sky.collection.exception.EmployeeNotFoundException;
 import pro.sky.collection.model.Employee;
 
 import java.util.Comparator;
@@ -22,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Employee> getAllDepartment(int dep) {
-        return employeeServiceImpl.getMap().values()
+        return employeeServiceImpl.findAll()
                 .stream()
                 .filter(employee -> employee.getDepartment() == dep)
                 .collect(Collectors.toList());
@@ -35,17 +36,20 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 @Override
-    public Optional<Employee> findEmployeeWithMaxSalaryInDepartment(int dep) {
-        return employeeServiceImpl.findAll()
-                .stream()
-                .filter(employee -> employee.getDepartment() == dep)
-                .max(Comparator.comparing(Employee::toString));
-    }
+    public Employee findEmployeeWithMaxSalaryInDepartment(int dep) {
+    return employeeServiceImpl.findAll()
+            .stream()
+            .filter(employee -> employee.getDepartment() == dep)
+            .max(Comparator.comparing(Employee::getSalary))
+            .orElseThrow(() -> new EmployeeNotFoundException ("Сотрудник не найден"));
+}
+
 @Override
-    public Optional<Employee> findEmployeeWithMinSalaryInDepartment(int dep) {
-        return employeeServiceImpl.findAll()
-                .stream()
-                .filter(employee -> employee.getDepartment() == dep)
-                .min(Comparator.comparing(Employee::toString));
+    public Employee findEmployeeWithMinSalaryInDepartment(int dep) {
+    return employeeServiceImpl.findAll()
+            .stream()
+            .filter(employee -> employee.getDepartment() == dep)
+            .min(Comparator.comparing(Employee::getSalary))
+            .orElseThrow(() -> new EmployeeNotFoundException ("Сотрудник не найден"));
     }
 }

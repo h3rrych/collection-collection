@@ -12,7 +12,7 @@ public interface DepartmentService {
 
     public Map<Integer, List<Employee>> getAll();
 
-    Optional<Employee> findEmployeeWithMaxSalaryInDepartment(int dep);
+   Employee findEmployeeWithMaxSalaryInDepartment(int dep);
 
-    Optional<Employee> findEmployeeWithMinSalaryInDepartment(int dep);
+    Employee findEmployeeWithMinSalaryInDepartment(int dep);
 }

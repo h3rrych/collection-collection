@@ -48,9 +48,4 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Collection<Employee> findAll() {
         return Collections.unmodifiableCollection(employees.values());
     }
-
-    @Override
-    public Map<String, Employee> getMap() {
-        return employees;
     }
-}
